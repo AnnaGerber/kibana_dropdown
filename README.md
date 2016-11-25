@@ -24,6 +24,9 @@ To set up the dropdown widget, create a Visualisation of type 'Dropdown Picker'
 
 In the visualisation options, you can set whether the dropdown is allowed to be blank. If this is true, you can hit escape while the dropdown is open to close it without selecting a value.
 
+
+Licensed under the Apache License, Version 2.0
+
 ---
 
 ## development
