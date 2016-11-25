@@ -1,0 +1,12 @@
+<div ng-controller="KbnDropdownVisController" class="dropdownpicker-vis">
+  <h3 ng-show="config.title">{{config.title}}</h3>
+  <form name="dashboardDropdown">
+      <ui-select append-to-body="true" class="col-xs-12" uis-open-close="onOpenClose(isOpen)" ng-model="dropdown.selected">
+        <ui-select-match placeholder="Select value">{{$select.selected}}
+        </ui-select-match>
+        <ui-select-choices repeat="item in dropdownValues | filter: $select.search">
+          <div ng-bind-html="item.key | highlight: $select.search"></div> <div><em>({{item.doc_count}} hits)</em></div>
+        </ui-select-choices>
+      </ui-select> 
+  </form>
+</div>
