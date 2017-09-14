@@ -1,11 +1,12 @@
 var uiselect = require('ui-select')
-import FilterBarQueryFilterProvider from 'ui/filter_bar/query_filter';
+import { FilterBarQueryFilterProvider } from 'ui/filter_bar/query_filter';
+import { FilterManagerProvider } from 'ui/filter_manager';
 
 define(function (require) {
  
   var module = require('ui/modules').get('kibana/kibana_dropdown',['ui.select']);
   module.controller('KbnDropdownVisController', function ($scope, $rootScope, Private, $filter) {
-    var filterManager = Private(require('ui/filter_manager'));
+    var filterManager = Private(FilterManagerProvider);
     var queryFilter = Private(FilterBarQueryFilterProvider);
     
     $rootScope.plugin = {
@@ -45,7 +46,7 @@ define(function (require) {
           fieldParam,
           val,
           null,
-          $scope.vis.indexPattern.title
+          $scope.vis.indexPattern.id
         );
       }
     };

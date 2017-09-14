@@ -1,12 +1,14 @@
 // dropdown control for filtering dashboards
-import VisSchemasProvider from 'ui/vis/schemas';
+import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
+import { VisSchemasProvider } from 'ui/vis/schemas';
+import { TemplateVisTypeProvider } from 'ui/template_vis_type/template_vis_type';
 define(function (require) {
-  require('ui/registry/vis_types').register(DropdownVisProvider);
+  VisTypesRegistryProvider.register(DropdownVisProvider);
   require('plugins/kibana_dropdown/dropdownpicker.less');
   require('plugins/kibana_dropdown/dropdownController');
   require('ui-select');
   function DropdownVisProvider(Private) {
-    const TemplateVisType = Private(require('ui/template_vis_type/template_vis_type'));
+    const TemplateVisType = Private(TemplateVisTypeProvider);
     var Schemas = Private(VisSchemasProvider);
 
     return new TemplateVisType({
