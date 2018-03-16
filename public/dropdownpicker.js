@@ -1,26 +1,30 @@
 // dropdown control for filtering dashboards
 import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
-import { VisSchemasProvider } from 'ui/vis/schemas';
-import { TemplateVisTypeProvider } from 'ui/template_vis_type/template_vis_type';
-define(function (require) {
-  VisTypesRegistryProvider.register(DropdownVisProvider);
-  require('plugins/kibana_dropdown/dropdownpicker.less');
-  require('plugins/kibana_dropdown/dropdownController');
-  require('ui-select');
-  function DropdownVisProvider(Private) {
-    const TemplateVisType = Private(TemplateVisTypeProvider);
-    var Schemas = Private(VisSchemasProvider);
+import { VisSchemasProvider } from 'ui/vis/editors/default/schemas';
+//import { TemplateVisTypeProvider } from 'ui/template_vis_type/template_vis_type';
+import { VisFactoryProvider } from 'ui/vis/vis_factory';
+import { CATEGORY } from 'ui/vis/vis_category';
 
-    return new TemplateVisType({
-      name: 'dropdownpicker',
-      title: 'Dropdown Picker',
-      icon: 'fa-caret-square-o-down',
-      description: 'In-dashboard dropdown filter widget',
+VisTypesRegistryProvider.register(DropdownVisProvider);
+require('plugins/kibana_dropdown/dropdownpicker.less');
+require('plugins/kibana_dropdown/dropdownController');
+require('ui-select');
+function DropdownVisProvider(Private) {
+  const VisFactory = Private(VisFactoryProvider);
+  const Schemas = Private(VisSchemasProvider);
+
+  return VisFactory.createAngularVisualization({
+    name: 'dropdownpicker',
+    type: 'dropdownpicker',
+    title: 'Dropdown Picker',
+    icon: 'fa-caret-square-o-down',
+    category: CATEGORY.OTHER,
+    description: 'In-dashboard dropdown filter widget',
+    visConfig: {
       template: require('plugins/kibana_dropdown/dropdown.html'),
-      params: {
-        editor: require('plugins/kibana_dropdown/dropdownOptions.html')
-      },
-      requiresSearch: true,
+    },
+    editorConfig: {
+      optionsTemplate: require('plugins/kibana_dropdown/dropdownOptions.html'),
       schemas: new Schemas([
         {
           group: 'metrics',
@@ -29,7 +33,6 @@ define(function (require) {
           min: 1,
           max: 1,
           aggFilter: ['avg']
-          
         },
         {
           group: 'buckets',
@@ -40,8 +43,9 @@ define(function (require) {
           aggFilter: '!geohash_grid'
         }
       ])
-    });
-  }
+    },
+    responseHandler: 'none'
+  });
+}
 
-  return DropdownVisProvider;
-});
+export default DropdownVisProvider;
